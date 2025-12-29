@@ -87,13 +87,3 @@ Shopee may occasionally require manual CAPTCHA solving. When this occurs, you ma
 
 ### Rate Limits & Anti-Bot Measures
 Use the scraper responsibly to avoid IP blocking or violations of Shopee's terms of service.
-
-## Disclaimer
-This project is for educational purposes. Please ensure compliance with Shopee's policies before scraping.
-
-## Contributing
-Contributions are welcome! Feel free to submit issues for bugs or suggestions, or open a pull request with improvements. Please follow existing coding styles and add tests where appropriate.
-
-## License
-This project is released under the MIT License. You can freely use or modify this software under the terms of the license.
-
