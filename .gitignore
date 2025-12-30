@@ -3,4 +3,5 @@ __pycache__
 downloaded_files
 .env
 .DS_Store
-latest_logs
+latest_logs/threading.line_1002
+
