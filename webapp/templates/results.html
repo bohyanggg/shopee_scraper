@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Results • Shopee Scraper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>Scrape Results</h1>
+      <p class="sub">Keyword: <strong>{{ results.keyword }}</strong></p>
+      <div class="header-actions">
+        <a class="btn btn-small" href="{{ url_for('history') }}">Back to History</a>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <div class="meta">
+          <div>Created: {{ results.createdAt }}</div>
+          <div>Updated: {{ results.updatedAt }}</div>
+          <div>
+            <a class="btn" href="{{ url_for('downloads', filename=download_filename) }}">Download JSON</a>
+            <a class="btn btn-secondary" href="{{ url_for('index') }}">New Search</a>
+          </div>
+        </div>
+      </section>
+
+      {% if results.data %}
+        <section class="card filter-section">
+          <label for="productFilter">Filter products:</label>
+          <input id="productFilter" type="text" placeholder="Search by name or description... e.g. 'mechanical'" />
+        </section>
+      {% endif %}
+
+      {% if results.data %}
+        <section class="grid">
+          {% for p in results.data %}
+            <article class="card" data-product-name="{{ p.name }}" data-product-desc="{{ p.description or '' }}">
+              <h3 class="title">{{ p.name }}</h3>
+              <p class="muted">ID: {{ p.id }}</p>
+              {% if p.description %}
+                <details class="description-box">
+                  <summary>Description</summary>
+                  <p class="desc-text">{{ p.description }}</p>
+                </details>
+              {% endif %}
+              <p>
+                <strong>Price:</strong>
+                {{ p.price.range.min }}–{{ p.price.range.max }} {{ p.price.currency }}
+              </p>
+              <p><strong>Rating:</strong> {{ p.rating or 'N/A' }}</p>
+              <p><strong>Seller:</strong> {{ p.seller.name if p.seller and p.seller.name else 'N/A' }}</p>
+              <p><strong>Category:</strong> {{ p.categoryPath | join(' / ') if p.categoryPath else 'N/A' }}</p>
+              <p>
+                <a class="link" href="{{ p.url }}" target="_blank" rel="noopener">Open on Shopee</a>
+              </p>
+              {% if p.variants %}
+                <details class="variants">
+                  <summary>Variants ({{ p.variants | length }})</summary>
+                  <ul>
+                    {% for v in p.variants %}
+                      <li>{{ v.name }} — {{ v.price }} {{ results.currency or 'SGD' }}</li>
+                    {% endfor %}
+                  </ul>
+                </details>
+              {% endif %}
+            </article>
+          {% endfor %}
+        </section>
+        <div id="noFilterResults" style="display: none;" class="card">
+          <p>No products match your filter.</p>
+        </div>
+      {% else %}
+        <section class="card">
+          <p>No products found for this query.</p>
+        </section>
+      {% endif %}
+
+      <section class="card">
+        <details>
+          <summary>Raw JSON</summary>
+          <pre class="code">{{ results | tojson(indent=2) }}</pre>
+        </details>
+      </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='filter.js') }}"></script>
+  </body>
+  </html>

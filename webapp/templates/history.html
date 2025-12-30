@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Scrape History • Shopee Scraper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>Scrape History</h1>
+      <p class="sub">View all past scrape results</p>
+      <div class="header-actions">
+        <a href="{{ url_for('index') }}" class="btn btn-small">New Search</a>
+      </div>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">
+          {% for m in messages %}<div class="flash-item">{{ m }}</div>{% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <main class="container">
+      {% if files %}
+        <div class="history-list">
+          {% for f in files %}
+            <article class="history-item">
+              <div class="history-header">
+                <h3 class="title">{{ f.keyword }}</h3>
+                <span class="badge">{{ f.itemCount }} products</span>
+              </div>
+              <p class="muted">{{ f.createdAt }}</p>
+              <a href="{{ url_for('view_result', filename=f.filename) }}" class="btn btn-small">View Results</a>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <section class="card">
+          <p>No scrape history yet. Start a new search!</p>
+          <a href="{{ url_for('index') }}" class="btn">New Search</a>
+        </section>
+      {% endif %}
+    </main>
+
+    <footer class="footer">Local results only • Stored in downloaded_files/</footer>
+  </body>
+</html>

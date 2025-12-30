@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shopee Scraper • POC</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>Shopee Scraper</h1>
+      <p class="sub">Local proof-of-concept web UI</p>
+      <div class="header-actions">
+        <a href="{{ url_for('history') }}" class="btn btn-small">View History</a>
+      </div>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">
+          {% for m in messages %}<div class="flash-item">{{ m }}</div>{% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <main class="container">
+      <form class="card" method="post" action="{{ url_for('scrape') }}">
+        <div class="field">
+          <label for="keyword">Keyword</label>
+          <input id="keyword" name="keyword" type="text" placeholder="e.g. keyboard" value="{{ default_keyword }}" required />
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label for="numpage">Pages (optional)</label>
+            <input id="numpage" name="numpage" type="number" min="0" value="{{ default_numpage }}" />
+          </div>
+          <div class="field">
+            <label for="itemperpage">Items per page (optional)</label>
+            <input id="itemperpage" name="itemperpage" type="number" min="0" value="{{ default_itemperpage }}" />
+          </div>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn">Start Scraping</button>
+        </div>
+      </form>
+
+      <section class="note">
+        <p>
+          Credentials are loaded from your <code>.env</code> file using
+          keys <code>SHOPEE_USERNAME</code> and <code>SHOPEE_PASSWORD</code>.
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">Runs locally • Results saved as JSON</footer>
+  </body>
+  </html>

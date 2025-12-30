@@ -34,7 +34,9 @@ class LoginHandler:
         except Exception as e:
             raise RuntimeError(f"[ERROR] Failed to click login button: {e}")
 
-        sb.sleep(2)
+        print("[INFO] Waiting for CAPTCHA/verification to be completed...")
+        print("[INFO] Please complete any CAPTCHA or verification steps. You have up to 30 seconds.")
+        sb.sleep(30)
 
         try:
             sb.wait_for_element_visible(

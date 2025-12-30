@@ -81,6 +81,35 @@ A browser window should open, navigate to Shopee, log in with your credentials, 
 ### Review Output
 By default, the scraper prints the resulting JSON output to the console in the `after_scrape()` method. You can modify `shopee_scraper.py` or `main.py` if you wish to store the output in a file or database.
 
+## Web App (POC)
+A minimal local web UI is provided in `webapp/` to make scraping easier for non-technical users.
+
+### Setup
+1. Create a `.env` file in the project root with your credentials:
+	```env
+	SHOPEE_USERNAME=your_username
+	SHOPEE_PASSWORD=your_password
+	APP_SECRET_KEY=optional-random-string
+	```
+2. Ensure dependencies are installed:
+	```sh
+	pip install -r requirements.txt
+	```
+
+### Run
+```sh
+python webapp/app.py
+```
+Then open http://127.0.0.1:5000/ in your browser.
+
+Enter a keyword, the number of pages, and items per page, then click "Start Scraping". The app will:
+- Use credentials from `.env`
+- Run the existing `ShopeeScraper`
+- Save results as JSON files under `downloaded_files/`
+- Show a human-readable results page with a download link
+
+This web app is intended for local use only as a proof of concept.
+
 ## Notes
 ### CAPTCHA Handling
 Shopee may occasionally require manual CAPTCHA solving. When this occurs, you may need to solve it for the scraper to continue.
